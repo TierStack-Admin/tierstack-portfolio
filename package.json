@@ -1,0 +1,32 @@
+{
+  "name": "tierstack-portfolio",
+  "version": "1.0.0",
+  "description": "web-based portfolio for Tierstack company",
+  "private": true,
+  "workspaces": [
+    "front",
+    "back"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -c \"cyan.bold,yellow.bold\" \"npm run dev -w front\" \"npm run dev -w back\"",
+    "dev:front": "npm run dev -w front",
+    "dev:back": "npm run dev -w back",
+    "build": "npm run build -w front"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TierStack-Admin/tierstack-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TierStack-Admin/tierstack-portfolio/issues"
+  },
+  "homepage": "https://github.com/TierStack-Admin/tierstack-portfolio#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
