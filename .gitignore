@@ -1,0 +1,16 @@
+# Node dependencies
+node_modules/
+front/node_modules/
+
+# Environment files
+.env
+back/.env
+front/.env
+
+# User uploads
+back/uploads/*
+!back/uploads/.gitkeep
+
+# Build outputs
+dist/
+build/
