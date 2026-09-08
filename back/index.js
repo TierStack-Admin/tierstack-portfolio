@@ -21,9 +21,9 @@ app.get('/health', (req, res) => {
 });
 
 // 4. Feature Routes (Mounted in Step 4)
-// app.use('/api/v1/auth', authRoutes);
-// app.use('/api/v1/careers', careerRoutes);
-// app.use('/api/v1/services', serviceRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/career', careerRoutes);
+app.use('/api/v1/portfolio', portfolioRoutes); 
 
 // 5. Global Error Handling Middleware (MUST be last)
 app.use(errorHandler);
