@@ -1,95 +1,71 @@
 import mongoose from 'mongoose';
-import { config } from './config/env.js';
-import { User } from './features/auth/auth.model.js';
+import dotenv from 'dotenv';
+import {User} from './features/auth/auth.model.js';
 import { Job } from './features/career/career.model.js';
-import { Portfolio } from './features/portfolio/portfolio.model.js';
-import { logger } from './utils/logger.js';
+import {Project} from './features/portfolio/portfolio.model.js';
 
-const seedData = async () => {
+dotenv.config();
+
+const seedDatabase = async () => {
   try {
-    // 1. Connect to MongoDB
-    await mongoose.connect(config.mongoUri);
-    logger.info('[SEED]: Database connected');
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('[INFO]: [SEED]: Database connected');
 
-    // 2. Clear existing collections
+    // 1. Clear existing data
     await User.deleteMany({});
     await Job.deleteMany({});
-    await Portfolio.deleteMany({});
-    logger.info('[SEED]: Cleared existing database records');
+    await Project.deleteMany({});
+    console.log('[INFO]: [SEED]: Cleared existing database records');
 
-    // 3. Seed Admin User
-    const adminUser = await User.create({
+    // 2. Create Admin User next
+    // Use User.create() directly rather than calling a Controller or middleware
+    await User.create({
       name: 'Admin User',
       email: 'admin@tierstack.com',
-      password: 'Password123!', // Will be automatically hashed by User model pre-save hook
+      password: 'Password123!', // Ensure your User model schema handles bcrypt hashing in a pre('save') hook
       role: 'admin',
     });
-    logger.info(`[SEED]: Created Admin user (${adminUser.email})`);
 
-    // 4. Seed Career Job Openings
-    const jobs = await Job.insertMany([
+    // 3. Create Sample Jobs
+    await Job.create([
       {
         title: 'Senior Full Stack Developer',
         department: 'Engineering',
         location: 'Remote',
         type: 'Full-time',
-        description: 'We are seeking a Full Stack Developer experienced with Node.js, Express, React, and MongoDB.',
-        requirements: [
-          '3+ years of experience with Node.js and React',
-          'Proficiency in RESTful API design and MongoDB',
-          'Familiarity with monorepos and Git workflows',
-        ],
-        isActive: true,
+        description: 'Building modern web applications.',
+        requirements: ['Node.js', 'React', 'MongoDB'],
       },
       {
         title: 'UI/UX Product Designer',
         department: 'Design',
-        location: 'Hybrid',
+        location: 'Remote',
         type: 'Full-time',
-        description: 'Design intuitive dashboard interfaces and responsive client portfolio platforms.',
-        requirements: [
-          'Strong Figma portfolio demonstrating Web App design',
-          'Experience working closely with frontend engineers',
-        ],
-        isActive: true,
+        description: 'Designing intuitive interfaces.',
+        requirements: ['Figma', 'User Research'],
       },
     ]);
-    logger.info(`[SEED]: Created ${jobs.length} job postings`);
 
-    // 5. Seed Portfolio Projects
-    const projects = await Portfolio.insertMany([
+    // 4. Create Sample Projects
+    await Project.create([
       {
         title: 'E-Commerce Platform Redesign',
         slug: 'e-commerce-platform-redesign',
-        client: 'RetailX',
-        summary: 'A complete modernization of an online retail experience boosting conversion by 35%.',
-        description: 'Rebuilt the legacy storefront using React, Tailwind CSS, and Node.js microservices.',
+        summary: 'Modernizing online retail.',
+        description: 'Full stack web platform rebuild.',
         coverImage: 'uploads/sample-ecommerce.png',
-        technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
-        liveUrl: 'https://example.com',
+        technologies: ['React', 'Node.js', 'MongoDB'],
         isFeatured: true,
         isPublished: true,
       },
-      {
-        title: 'SaaS Analytics Dashboard',
-        slug: 'saas-analytics-dashboard',
-        client: 'MetricsHQ',
-        summary: 'Real-time data visualization platform processing thousands of telemetry events.',
-        description: 'Built scalable backend pipelines and custom chart visualizers for high-volume metrics.',
-        coverImage: 'uploads/sample-dashboard.png',
-        technologies: ['TypeScript', 'Express', 'Tailwind CSS'],
-        isFeatured: false,
-        isPublished: true,
-      },
     ]);
-    logger.info(`[SEED]: Created ${projects.length} portfolio projects`);
 
-    logger.info('[SEED]: Seeding completed successfully!');
+    console.log('[INFO]: [SEED]: Database seeded successfully!');
     process.exit(0);
   } catch (error) {
-    logger.error(`[SEED ERROR]: ${error.message}`);
+    console.error('[ERROR]: [SEED ERROR]:', error.message);
     process.exit(1);
   }
 };
 
-seedData();
+seedDatabase();

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const portfolioSchema = new mongoose.Schema(
+const ProjectSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -58,4 +58,4 @@ const portfolioSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Portfolio = mongoose.model('Portfolio', portfolioSchema);
+export const Project = mongoose.model('Project', ProjectSchema);

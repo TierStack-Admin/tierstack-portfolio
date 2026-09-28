@@ -5,6 +5,10 @@ import { connectDB } from './config/db.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 import { logger } from './utils/logger.js';
 
+import { authRoutes } from './features/auth/auth.routes.js';
+import { careerRoutes } from './features/career/career.routes.js';
+import { portfolioRoutes } from './features/portfolio/portfolio.routes.js';
+
 const app = express();
 
 // 1. Connect to Database

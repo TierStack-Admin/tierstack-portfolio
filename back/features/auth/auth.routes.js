@@ -2,10 +2,10 @@ import { Router } from 'express';
 import { register, login, getMe } from './auth.controller.js';
 import { authenticate } from '../../middlewares/auth.middleware.js';
 
-const router = Router();
+const authRoutes = Router();
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/me', authenticate, getMe);
+authRoutes.post('/register', register);
+authRoutes.post('/login', login);
+authRoutes.get('/me', authenticate, getMe);
 
-export default router;
+export  {authRoutes};

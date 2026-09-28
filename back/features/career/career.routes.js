@@ -11,17 +11,17 @@ import {
 import { authenticate, authorize } from '../../middlewares/auth.middleware.js';
 import { upload } from '../../middlewares/upload.middleware.js';
 
-const router = Router();
+const careerRoutes = Router();
 
 // Public routes
-router.get('/', getJobs);
-router.get('/:id', getJob);
-router.post('/:id/apply', upload.single('resume'), applyForJob);
+careerRoutes.get('/', getJobs);
+careerRoutes.get('/:id', getJob);
+careerRoutes.post('/:id/apply', upload.single('resume'), applyForJob);
 
 // Admin-protected routes
-router.post('/', authenticate, authorize('admin'), createJob);
-router.put('/:id', authenticate, authorize('admin'), updateJob);
-router.delete('/:id', authenticate, authorize('admin'), deleteJob);
-router.get('/:id/applications', authenticate, authorize('admin'), getJobApplications);
+careerRoutes.post('/', authenticate, authorize('admin'), createJob);
+careerRoutes.put('/:id', authenticate, authorize('admin'), updateJob);
+careerRoutes.delete('/:id', authenticate, authorize('admin'), deleteJob);
+careerRoutes.get('/:id/applications', authenticate, authorize('admin'), getJobApplications);
 
-export default router;
+export  {careerRoutes};

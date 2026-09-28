@@ -9,15 +9,15 @@ import {
 import { authenticate, authorize } from '../../middlewares/auth.middleware.js';
 import { upload } from '../../middlewares/upload.middleware.js';
 
-const router = Router();
+const portfolioRoutes = Router();
 
 // Public routes
-router.get('/', getProjects);
-router.get('/:slug', getProject);
+portfolioRoutes.get('/', getProjects);
+portfolioRoutes.get('/:slug', getProject);
 
 // Admin-protected routes
-router.post('/', authenticate, authorize('admin'), upload.single('coverImage'), createProject);
-router.put('/:id', authenticate, authorize('admin'), upload.single('coverImage'), updateProject);
-router.delete('/:id', authenticate, authorize('admin'), deleteProject);
+portfolioRoutes.post('/', authenticate, authorize('admin'), upload.single('coverImage'), createProject);
+portfolioRoutes.put('/:id', authenticate, authorize('admin'), upload.single('coverImage'), updateProject);
+portfolioRoutes.delete('/:id', authenticate, authorize('admin'), deleteProject);
 
-export default router;
+export  {portfolioRoutes};
